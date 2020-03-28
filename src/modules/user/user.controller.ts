@@ -1,9 +1,7 @@
-import BaseController from '../../commons/base/controller.base';
-import randomstring from 'randomstring';
-import UserRepository from './user.reponsitory';
-import moment from 'moment';
 import _ from 'lodash';
-import BadRequestException from '../../commons/errors/BadRequestException';
+import BaseController from '../../commons/base/controller.base';
+import UserRepository from './user.reponsitory';
+import { BadRequestException } from '../../commons/errors/index';
 
 
 class UserController extends BaseController {

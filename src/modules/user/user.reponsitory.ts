@@ -20,6 +20,18 @@ class UserReponsitory {
         return UserModel.create(data);
     }
 
+    async getUserByUserNameAndPassword(username: string): Promise<IUser | null> {
+        return UserModel.findOne({
+            $or: [
+                { username: username },
+                { mobilePhone: username },
+                { email: username },
+            ],
+            isActive: true,
+            isDeleted: false,
+        }).select('-_id -createdAt -updatedAt -__v -isDeleted -firstName -type -emailVerifycode');
+    }
+
     async getUserByUsername(username: string): Promise<IUser | null | any> {
         return UserModel.findOne({ username, isDeleted: false, isSuperAdmin: false });
     }
