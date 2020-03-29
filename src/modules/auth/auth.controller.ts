@@ -5,7 +5,7 @@ import moment from 'moment';
 import sha256 from 'sha256';
 import { BadRequestException, UnauthorizedException } from '../../commons/errors/index';
 import { USER_NOT_FOUND } from '../user/user.message';
-import { CREATE_TOKEN_FAILED, UNAUTHORIZE, INVALID_TOKEN } from './auth.message';
+import { CREATE_TOKEN_FAILED, UNAUTHORIZE, INVALID_TOKEN, ERR_MISSING_INPUT } from './auth.message';
 
 class AuthController extends BaseController {
     authRepository: AuthReponsitory;
@@ -19,14 +19,14 @@ class AuthController extends BaseController {
     async signIn(req: any, res: any, next: any) {
         try {
             const { username, password } = req.body;
-            if (!username || !password) {
-                throw new BadRequestException();
+            console.log(req.body)
+            if (this.validator.isEmpty(username) || this.validator.isEmpty(password)) {
+                throw new BadRequestException(ERR_MISSING_INPUT);
             }
             let user = await this.userRepository.getUserByUserNameAndPassword(username);
             if (!(user && user.comparePassword(password))) {
                 throw new UnauthorizedException(USER_NOT_FOUND);
             }
-            console.log(user);
             // store token
             let userID = user.ID;
             let expirationDate = moment().add(2, 'day');
@@ -43,7 +43,6 @@ class AuthController extends BaseController {
             return res.json({
                 accesstoken,
                 expirationDate,
-                user,
             });
         } catch (err) {
             next(err);

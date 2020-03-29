@@ -1,0 +1,2 @@
+export const ERR_MISSING_INPUT = "ERR_MISSING_INPUT";
+export const ERR_CREATE_CLASS = "ERR_CREATE_CLASS";
