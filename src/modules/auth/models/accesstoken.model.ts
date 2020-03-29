@@ -7,7 +7,7 @@ import { IAccessToken } from '../auth.interfaces';
 const AccessTokenSchema = new Schema({
     ID: {
         type: String,
-        default: uuid,
+        default: uuid.v1,
     },
     accesstoken: {
         type: String,

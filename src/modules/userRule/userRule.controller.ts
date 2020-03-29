@@ -38,28 +38,6 @@ class UserRuleController extends BaseController {
         }
     }
 
-    async updateRuleSubAcount(req: any, res: any, next: any) {
-        try {
-            let { userID, name } = req.body;
-            let rules = await this.ruleRepository.getSubAccount();
-            let ruleNotExist = rules.indexOf(name);
-            if (ruleNotExist < 0) {
-                throw new BadRequestException(RULE_NOT_EXIST_IN_LIST_RULE)
-            }
-            let list = await this.userRuleRepository.getUserRuleByData({ userID, name })
-            if (list.length > 0) {
-                let create = await this.userRuleRepository.update(list[0].ID, req.body);
-                res.json(create)
-            } else {
-                req.body.ID = uuid.v1();
-                let create = await this.userRuleRepository.create(req.body);
-                res.json(create)
-            }
-        } catch (error) {
-            next(error);
-        }
-    }
-
     async getRuleByUser(req: any, res: any, next: any) {
         try {
             let { userID } = req.params;

@@ -19,7 +19,6 @@ class AuthController extends BaseController {
     async signIn(req: any, res: any, next: any) {
         try {
             const { username, password } = req.body;
-            console.log(req.body)
             if (this.validator.isEmpty(username) || this.validator.isEmpty(password)) {
                 throw new BadRequestException(ERR_MISSING_INPUT);
             }
@@ -27,6 +26,7 @@ class AuthController extends BaseController {
             if (!(user && user.comparePassword(password))) {
                 throw new UnauthorizedException(USER_NOT_FOUND);
             }
+            console.log(user)
             // store token
             let userID = user.ID;
             let expirationDate = moment().add(2, 'day');

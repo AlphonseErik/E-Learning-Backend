@@ -1,9 +1,4 @@
 import express from 'express';
-import {
-    validatorBody,
-    validatorParam,
-    validatorQuery
-} from '../../middlewares';
 
 import UserController from './user.controller';
 

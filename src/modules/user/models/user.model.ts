@@ -8,7 +8,7 @@ import mongoosePaginate from 'mongoose-paginate';
 const UserSchema = new Schema({
     ID: {
         type: String,
-        default: uuid,
+        default: uuid.v1,
     },
     username: {
         type: String,
@@ -29,6 +29,10 @@ const UserSchema = new Schema({
     birthDate: {
         type: Date,
         default: Date.now,
+    },
+    type: {
+        type: Number,
+        default: 0, //0: Student, 1: Teacher
     },
     isActive: {
         type: Boolean,

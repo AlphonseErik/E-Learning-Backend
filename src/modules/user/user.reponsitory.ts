@@ -9,6 +9,7 @@ class UserReponsitory {
         //         UserModel.create({
         //             username: "Admin",
         //             password: "123456",
+        //             type: 1,
         //             isVerifyEmail: true,
         //             isSuperAdmin: true,
         //         })

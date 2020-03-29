@@ -11,10 +11,6 @@ const UserRuleSchema = new Schema({
             return uuid.v1();
         },
     },
-    userID: {
-        type: String,
-        required: true
-    },
     name: {
         type: String,
         default: '',
@@ -29,7 +25,8 @@ const UserRuleSchema = new Schema({
         default: 0
     },
     isDeleted: {
-        type: String,
+        type: Boolean,
+        default: false,
     },
 }, {
     timestamps: true,

@@ -30,7 +30,7 @@
     "@types/morgan": "^1.9.0",
     "@types/randomstring": "^1.1.6",
     "@types/sha256": "^0.2.0",
-    "@types/uuid": "^7.0.2",
+    "@types/uuid": "^3.3.3",
     "auto-bind": "^4.0.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
@@ -51,7 +51,7 @@
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
     "sha256": "^0.2.0",
-    "uuid": "^7.0.2"
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

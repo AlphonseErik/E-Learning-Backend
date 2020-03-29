@@ -4,7 +4,6 @@ import { Types } from 'mongoose';
 
 class UserRuleRepository {
     constructor() {
-
     }
 
     async create(data: IUserRule): Promise<ICreateUserRule> {

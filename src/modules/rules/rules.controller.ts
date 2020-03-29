@@ -7,12 +7,7 @@ class RuleController extends BaseController {
         super();
         this.ruleRepository = new RuleRepository();
     }
-    /**
-    * 
-    * @param req 
-    * @param res 
-    * @param next 
-    */
+
     async getList(req: any, res: any, next: any) {
         try {
             const rules = await this.ruleRepository.getAll();
