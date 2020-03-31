@@ -48,7 +48,7 @@ mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : '', {
 }).then(() => {
     console.log('Connected to the database system');
 });
-// process.env.NODE_ENV == 'development' ?
+
 app.listen(process.env.PORT, () => {
     console.log(`[HTTP] Server listening in port ${process.env.PORT}.`);
 })

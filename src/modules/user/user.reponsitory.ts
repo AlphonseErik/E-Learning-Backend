@@ -4,22 +4,32 @@ import bcrypt from 'bcryptjs';
 
 class UserReponsitory {
     constructor() {
-        // UserModel.find({}).then(res => {
-        //     if (res.length <= 0) {
-        //         UserModel.create({
-        //             username: "Admin",
-        //             password: "123456",
-        //             type: 1,
-        //             isVerifyEmail: true,
-        //             isSuperAdmin: true,
-        //         })
-        //     }
-        // })
+        UserModel.find({}).then(res => {
+            if (res.length <= 0) {
+                UserModel.create({
+                    username: "Admin",
+                    password: "123456",
+                    type: 1,
+                    isVerifyEmail: true,
+                    isSuperAdmin: true,
+                })
+            }
+        })
     }
 
     async create(data: ICreateUser): Promise<IUser | null | any> {
         return UserModel.create(data);
     }
+
+    async getUsersByIds(ids: string[], select: string = "") {
+        const users = await UserModel.find({
+          isDeleted: false,
+          ID: {
+            $in: ids
+          }
+        }).select(select);
+        return users;
+      }
 
     async getUserByUserNameAndPassword(username: string): Promise<IUser | null> {
         return UserModel.findOne({

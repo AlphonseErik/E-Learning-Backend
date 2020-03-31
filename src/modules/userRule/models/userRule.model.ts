@@ -7,9 +7,7 @@ import mongoosePaginate from 'mongoose-paginate';
 const UserRuleSchema = new Schema({
     ID: {
         type: String,
-        default: function () {
-            return uuid.v1();
-        },
+        default: uuid.v1,
     },
     name: {
         type: String,

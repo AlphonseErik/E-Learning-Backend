@@ -6,7 +6,7 @@ import { SignInValidatorSchema } from './validatorSchema/signIn.validatorSchema'
 
 const authController = new AuthController();
 
-router.post('/signin', verifyAccessToken(), validatorBody(SignInValidatorSchema), authController.signIn);
+router.post('/signin', validatorBody(SignInValidatorSchema), authController.signIn);
 router.post('/logout', authController.logout);
 router.post('/verifytoken', authController.verifyToken);
 
