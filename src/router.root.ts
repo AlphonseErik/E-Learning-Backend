@@ -1,5 +1,7 @@
 import express from 'express';
+
 var router = express.Router();
+
 import AuthRouter from './modules/auth/auth.router';
 import NotificationRouter from './modules/notification/notification.router';
 import RuleRouter from './modules/rules/rules.router';

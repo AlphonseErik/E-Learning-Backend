@@ -6,13 +6,14 @@ class UserReponsitory {
     constructor() {
         UserModel.find({}).then(res => {
             if (res.length <= 0) {
-                UserModel.create({
-                    username: "Admin",
-                    password: "123456",
-                    type: 1,
-                    isVerifyEmail: true,
-                    isSuperAdmin: true,
-                })
+                // UserModel.create({
+                //     username: "Admin",
+                //     password: "123456",
+                //     type: 1,
+                //     isVerifyEmail: true,
+                //     isSuperAdmin: true,
+                // })
+                return
             }
         })
     }
@@ -23,21 +24,17 @@ class UserReponsitory {
 
     async getUsersByIds(ids: string[], select: string = "") {
         const users = await UserModel.find({
-          isDeleted: false,
-          ID: {
-            $in: ids
-          }
+            isDeleted: false,
+            ID: {
+                $in: ids
+            }
         }).select(select);
         return users;
-      }
+    }
 
     async getUserByUserNameAndPassword(username: string): Promise<IUser | null> {
         return UserModel.findOne({
-            $or: [
-                { username: username },
-                { mobilePhone: username },
-                { email: username },
-            ],
+            username: username,
             isActive: true,
             isDeleted: false,
         }).select('-_id -createdAt -updatedAt -__v -isDeleted -firstName -type -emailVerifycode');

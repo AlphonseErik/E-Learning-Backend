@@ -23,7 +23,7 @@ class AuthController extends BaseController {
     async signIn(req: any, res: any, next: any) {
         try {
             const { username, password } = req.body;
-            if (this.validator.isEmpty(username) || this.validator.isEmpty(password)) {
+            if (!username || !password) {
                 throw new BadRequestException(ERR_MISSING_INPUT);
             }
             let user = await this.userRepository.getUserByUserNameAndPassword(username);
@@ -36,7 +36,7 @@ class AuthController extends BaseController {
             let respone = await this.userRepository.getById(userID);
             let type = respone.type;
             if (respone.email) {
-                sendMail(sendNotificationOptions({
+                await sendMail(sendNotificationOptions({
                     to: respone.email,
                     email: respone.email,
                     title: "LOGIN",
