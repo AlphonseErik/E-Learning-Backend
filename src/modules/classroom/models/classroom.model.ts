@@ -17,9 +17,25 @@ const ClassroomSchema = new Schema({
         type: String,
         required: true,
     },
+    userName: {
+        type: String,
+        required: true,
+    },
+    detail: {
+        type: String,
+        default: "",
+    },
+    amountAvailable: {
+        type: Number,
+        default: 20,
+    },
+    amountInRealTime: {
+        type: Number,
+        default: 0
+    },
     isActive: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     isDeleted: {
         type: Boolean,

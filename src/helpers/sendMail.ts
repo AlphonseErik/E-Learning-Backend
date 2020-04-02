@@ -17,8 +17,6 @@ const sendMail = async (mailOptions: any) => {
         EMAIL_PASSWORD: "ServerMail.com",
     }
     const transporter = Service(respone);
-    console.log(transporter);
-    console.log(mailOptions)
     return transporter.sendMail({
         from: respone.EMAIL,
         ...mailOptions

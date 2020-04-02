@@ -34,10 +34,10 @@ class AuthController extends BaseController {
             let userID: any = user.ID;
             let expirationDate = moment().add(2, 'day');
             let respone = await this.userRepository.getById(userID);
-            console.log(respone.email)
+            let type = respone.type;
             if (respone.email) {
-                let send = await sendMail(sendNotificationOptions({
-                    to:respone.email,
+                sendMail(sendNotificationOptions({
+                    to: respone.email,
                     email: respone.email,
                     title: "LOGIN",
                     content: `
@@ -47,7 +47,6 @@ class AuthController extends BaseController {
                     `,
                     type: "LOGIN",
                 }))
-                return res.json(send)
             }
             // Generate token
             let accesstoken = sha256(`${userID}-${moment()}`)
@@ -62,6 +61,7 @@ class AuthController extends BaseController {
             return res.json({
                 accesstoken,
                 expirationDate,
+                type
             });
         } catch (err) {
             next(err);
