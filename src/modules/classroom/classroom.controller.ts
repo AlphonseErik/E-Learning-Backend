@@ -2,7 +2,7 @@ import BaseController from '../../commons/base/controller.base';
 import ClassroomRepository from './classroom.repository';
 import UserRepository from '../user/user.reponsitory';
 import { BadRequestException } from '../../commons/errors/index';
-import { ERR_MISSING_INPUT, ERR_CREATE_CLASS, CLASS_IS_ALREADY_EXIST, ERR_DELETE_CLASS, ERR_UPDATE_CLASS, NO_PERMISSION } from './classroom.message';
+import { ERR_MISSING_INPUT, ERR_CREATE_CLASS, CLASS_IS_ALREADY_EXIST, NO_PERMISSION, CLASS_NOT_FOUND } from './classroom.message';
 
 class ClassroomController extends BaseController {
     classroomRepository: ClassroomRepository;
@@ -43,8 +43,11 @@ class ClassroomController extends BaseController {
 
     async getClassByUserID(req: any, res: any, next: any) {
         try {
-            let { userID } = req.query;
+            let { userID } = req.params;
             let getClass = await this.classroomRepository.getClassByUserID(userID);
+            if (!getClass) {
+                throw new BadRequestException(CLASS_NOT_FOUND)
+            }
             return res.json(
                 getClass
             )
@@ -63,7 +66,7 @@ class ClassroomController extends BaseController {
             }
             let updateData = await this.classroomRepository.update(userID, classID, data);
             if (!updateData) {
-                throw new BadRequestException(ERR_UPDATE_CLASS);
+                throw new BadRequestException(CLASS_NOT_FOUND);
             }
             return res.json({
                 updateData
@@ -82,7 +85,7 @@ class ClassroomController extends BaseController {
             }
             let deleteClass = await this.classroomRepository.update(userID, classID, { isDelete: true });
             if (!deleteClass) {
-                throw new BadRequestException(ERR_DELETE_CLASS);
+                throw new BadRequestException(CLASS_NOT_FOUND);
             }
             return res.json({
                 isDelete: true

@@ -6,7 +6,7 @@ const classroomController = new ClassroomController();
 
 router.post('/', classroomController.create);
 
-router.get('/getclass/:userID')
+router.get('/getclass/:userID', classroomController.getClassByUserID);
 
 router.put('/:classID', classroomController.update);
 
