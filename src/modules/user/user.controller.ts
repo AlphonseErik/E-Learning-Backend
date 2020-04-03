@@ -42,7 +42,6 @@ class UserController extends BaseController {
             let userID = req.headers.userid;
             console.log(userID)
             const user = await this.userRepository.getById(userID, "-_id -password -isSuperAdmin -__v -isDeleted -createdAt -updatedAt -type");
-            console.log(user)
             if (!user)
                 throw new BadRequestException(USER_NOT_FOUND);
             res.json(user);

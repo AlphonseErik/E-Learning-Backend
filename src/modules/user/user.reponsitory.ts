@@ -4,18 +4,18 @@ import bcrypt from 'bcryptjs';
 
 class UserReponsitory {
     constructor() {
-        UserModel.find({}).then(res => {
-            if (res.length <= 0) {
-                // UserModel.create({
-                //     username: "Admin",
-                //     password: "123456",
-                //     type: 1,
-                //     isVerifyEmail: true,
-                //     isSuperAdmin: true,
-                // })
-                return
-            }
-        })
+        // UserModel.find({}).then(res => {
+        //     if (res.length <= 0) {
+        //         UserModel.create({
+        //             username: "Admin",
+        //             password: "123456",
+        //             type: 1,
+        //             isVerifyEmail: true,
+        //             isSuperAdmin: true,
+        //         })
+        //         return
+        //     }
+        // })
     }
 
     async create(data: ICreateUser): Promise<IUser | null | any> {
