@@ -2,6 +2,7 @@ import _ from 'lodash';
 import BaseController from '../../commons/base/controller.base';
 import UserRepository from './user.reponsitory';
 import { BadRequestException } from '../../commons/errors/index';
+import { USER_NOT_FOUND } from './user.message';
 
 
 class UserController extends BaseController {
@@ -39,10 +40,11 @@ class UserController extends BaseController {
     async getProfile(req: any, res: any, next: any) {
         try {
             let userID = req.headers.userid;
-            // let userID = "386fa530-1261-11ea-8869-1dc4ae15c1a4";
-            const user = await this.userRepository.getById(userID, "-_id -password -isSuperAdmin -__v -isDeleted");
+            console.log(userID)
+            const user = await this.userRepository.getById(userID, "-_id -password -isSuperAdmin -__v -isDeleted -createdAt -updatedAt -type");
+            console.log(user)
             if (!user)
-                throw new BadRequestException();
+                throw new BadRequestException(USER_NOT_FOUND);
             res.json(user);
         } catch (error) {
             next(error);

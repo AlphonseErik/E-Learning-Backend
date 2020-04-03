@@ -34,7 +34,6 @@ class AuthController extends BaseController {
             let userID: any = user.ID;
             let expirationDate = moment().add(2, 'day');
             let respone = await this.userRepository.getById(userID);
-            let type = respone.type;
             if (respone.email) {
                 await sendMail(sendNotificationOptions({
                     to: respone.email,
@@ -61,7 +60,6 @@ class AuthController extends BaseController {
             return res.json({
                 accesstoken,
                 expirationDate,
-                type
             });
         } catch (err) {
             next(err);

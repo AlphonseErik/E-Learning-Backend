@@ -8,4 +8,6 @@ var router = express.Router();
 
 router.post('/register', userController.register);
 
+router.post('/getprofile', userController.getProfile);
+
 export default router;
