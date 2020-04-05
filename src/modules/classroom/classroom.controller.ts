@@ -2,7 +2,7 @@ import BaseController from '../../commons/base/controller.base';
 import ClassroomRepository from './classroom.repository';
 import UserRepository from '../user/user.reponsitory';
 import { BadRequestException } from '../../commons/errors/index';
-import { ERR_MISSING_INPUT, ERR_CREATE_CLASS, CLASS_IS_ALREADY_EXIST, NO_PERMISSION, CLASS_NOT_FOUND } from './classroom.message';
+import { ERR_MISSING_INPUT, ERR_CREATE_CLASS, CLASS_IS_ALREADY_EXIST, NO_PERMISSION, CLASS_NOT_FOUND, USER_ALREADY_EXIST, ERR_USER_NOT_FOUND, FULL_CLASS } from './classroom.message';
 
 class ClassroomController extends BaseController {
     classroomRepository: ClassroomRepository;
@@ -35,6 +35,43 @@ class ClassroomController extends BaseController {
             }
             return res.json(
                 createClass
+            )
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    async registerClass(req: any, res: any, next: any) {
+        let { userid: userID } = req.headers;
+        let { classID } = req.body;
+        try {
+            let getUser = await this.userRepository.getById(userID);
+            console.log(getUser)
+            if (!getUser) {
+                throw new BadRequestException(ERR_USER_NOT_FOUND)
+            }
+            let getClassByID = await this.classroomRepository.getClassByID(classID);
+            let amountInClass = getClassByID?.amountAvailable;
+            let checkStudentExist = getClassByID?.studentDetail;
+            if (checkStudentExist) {
+                if (checkStudentExist.length === amountInClass) {
+                    throw new BadRequestException(FULL_CLASS);
+                } else {
+                    checkStudentExist.findIndex((index: any) => {
+                        console.log(index)
+                        if (index === userID) {
+                            throw new BadRequestException(USER_ALREADY_EXIST);
+                        }
+                    })
+                }
+            }
+            let registerClass = await this.classroomRepository.registerClass(classID, userID);
+            console.log(registerClass)
+            if (!registerClass) {
+                throw new BadRequestException(CLASS_NOT_FOUND);
+            }
+            return res.json(
+                registerClass
             )
         } catch (err) {
             next(err)

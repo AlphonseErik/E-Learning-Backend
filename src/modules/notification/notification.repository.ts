@@ -1,7 +1,7 @@
 import NotificationModel from './models/notification.model';
 import { INotification, ICreateNotification } from './notification.interface';
 
-class Notificationepository {
+class NotificationRepository {
     constructor() {
 
     }
@@ -11,4 +11,4 @@ class Notificationepository {
     }
 }
 
-export default Notificationepository;
+export default NotificationRepository;

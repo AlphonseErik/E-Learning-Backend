@@ -29,7 +29,27 @@ class ClassroomRepository {
         })
     }
 
-    async update(userID: String, classID: String, updateData: any) {
+    async getClassByID(classID: string) {
+        return ClassroomModel.findOne({
+            ID: classID,
+            isDeleted: false,
+        }).select('-_id -__v -createdAt -updatedAt')
+    }
+
+    async registerClass(classID: string, updateData: any): Promise<null | any> {
+        const classroomUpdate = await ClassroomModel.updateOne({
+            ID: classID,
+            isDeleted: false,
+        }, {
+            $push: { studentDetail: updateData },
+        });
+        if (classroomUpdate.nModified > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    async update(userID: String, classID: String, updateData: any): Promise<null | any> {
         const classroomUpdate = await ClassroomModel.updateOne({
             userID: userID,
             ID: classID,

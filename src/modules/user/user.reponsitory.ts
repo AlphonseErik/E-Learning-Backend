@@ -89,8 +89,17 @@ class UserReponsitory {
             sort: { createdAt: -1 },
             limit: Number(limit),
             page: Number(page),
-            select: "-privateKey -pk -_id -password"
+            select: "-_id -password"
         })
+    }
+
+    async getUserByName(name: String, option: any): Promise<IUser | null | any> {
+        return UserModel.findOne({
+            fullName: name,
+            type: option.type ? option.type : {},
+            isDeleted: false,
+            isActive: false
+        }).select('-__v -id -createdAt -updatedAt')
     }
 }
 

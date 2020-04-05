@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import uuid from 'uuid'
 import { Schema } from 'mongoose';
-const bcrypt = require('bcryptjs');
 import { INotification } from '../notification.interface';
 import mongoosePaginate from 'mongoose-paginate';
 

@@ -1,20 +1,26 @@
 import _ from 'lodash';
 import BaseController from '../../commons/base/controller.base';
 import UserRepository from './user.reponsitory';
-import { BadRequestException } from '../../commons/errors/index';
+import AuthRepository from '../auth/auth.reponsitory';
+import { BadRequestException, UnauthorizedException } from '../../commons/errors/index';
 import { USER_NOT_FOUND } from './user.message';
+import { NO_PERMISSION } from '../../commons/errorMessage';
+import moment from 'moment';
 
 
 class UserController extends BaseController {
     userRepository: UserRepository;
+    authRepository: AuthRepository;
     constructor() {
         super();
         this.userRepository = new UserRepository();
+        this.authRepository = new AuthRepository();
     }
 
     async register(req: any, res: any, next: any) {
         try {
-            let { username, email, mobilePhone } = req.body;
+            let accesstoken = req.headers.accesstoken;
+            let { username, email, mobilePhone, type } = req.body;
             if (req.body.type !== undefined) {
                 req.body.type = 0;
             }
@@ -29,6 +35,34 @@ class UserController extends BaseController {
             let mobilePhoneExist = await this.userRepository.getUserByPhone(mobilePhone);
             if (mobilePhoneExist) {
                 throw new BadRequestException();
+            }
+            if (type === 1) {
+                if (!accesstoken) {
+                    throw new UnauthorizedException(NO_PERMISSION);
+                }
+                let isValidToken = await this.authRepository.getToken({
+                    accesstoken,
+                });
+                console.log(isValidToken)
+                if (!isValidToken) {
+                    throw new BadRequestException(NO_PERMISSION);
+                }
+                if (isValidToken.isLogout) {
+                    throw new BadRequestException(NO_PERMISSION);
+                }
+                if (moment(isValidToken.expirationDate).valueOf() - moment().valueOf() < 0) {
+                    throw new BadRequestException(NO_PERMISSION);
+                }
+                const user = await this.userRepository.getById(isValidToken.userID);
+                console.log(user)
+                if (user) {
+                    if (user.isSuperAdmin) {
+                        next();
+                        return;
+                    }
+                    throw new BadRequestException(NO_PERMISSION);
+                }
+                throw new BadRequestException(NO_PERMISSION);
             }
             let user = await this.userRepository.create(req.body);
             res.json(user);
