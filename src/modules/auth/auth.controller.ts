@@ -106,7 +106,7 @@ class AuthController extends BaseController {
                 throw new BadRequestException(INVALID_TOKEN);
             }
             console.log((moment(isValidToken.expirationDate).valueOf() - moment().valueOf() < 0))
-            if (moment(isValidToken.expirationDate).valueOf() - moment().valueOf() < 0) {
+            if (!(moment(isValidToken.expirationDate).valueOf() - moment().valueOf())) {
                 throw new BadRequestException(INVALID_TOKEN);
             }
             let respone = await this.userRepository.getById(isValidToken.userID);
