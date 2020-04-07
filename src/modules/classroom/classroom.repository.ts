@@ -12,7 +12,7 @@ class ClassroomRepository {
 
     async getClassByName(className: String) {
         return ClassroomModel.findOne({
-            className,
+            className: className,
             isDeleted: false,
         }).select('-_id -__v -createdAt -updatedAt')
     }

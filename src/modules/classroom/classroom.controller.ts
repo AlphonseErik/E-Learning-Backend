@@ -24,8 +24,10 @@ class ClassroomController extends BaseController {
             if (checkClassExist) {
                 throw new BadRequestException(CLASS_IS_ALREADY_EXIST)
             }
-            let userDetail = await this.userRepository.getById(userID);
-            console.log(userDetail);
+            let userDetail = await this.userRepository.getById(userID, "-_id -__v -password");
+            if (!userDetail) {
+                throw new BadRequestException(ERR_USER_NOT_FOUND);
+            }
             if (userDetail.type === 0) {
                 throw new BadRequestException(NO_PERMISSION);
             }
