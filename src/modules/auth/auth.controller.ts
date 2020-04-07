@@ -105,6 +105,7 @@ class AuthController extends BaseController {
             if (isValidToken.isLogout) {
                 throw new BadRequestException(INVALID_TOKEN);
             }
+            console.log((moment(isValidToken.expirationDate).valueOf() - moment().valueOf() < 0))
             if (moment(isValidToken.expirationDate).valueOf() - moment().valueOf() < 0) {
                 throw new BadRequestException(INVALID_TOKEN);
             }
