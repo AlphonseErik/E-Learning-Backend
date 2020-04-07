@@ -22,6 +22,7 @@ const clientDir = path.resolve(__dirname, '../public');
 // Static router
 app.use('/resources', express.static(process.env.NODE_ENV == 'production' ? clientDir : 'public'));
 
+
 // Router
 app.use('/api/v1', router);
 
