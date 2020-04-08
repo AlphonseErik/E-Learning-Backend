@@ -8,10 +8,11 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import helmet from 'helmet'
 import router from './src/router.root';
+import rateLimit from "express-rate-limit";
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '300kb' }));
 app.use(helmet());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -22,8 +23,18 @@ const clientDir = path.resolve(__dirname, '../public');
 // Static router
 app.use('/resources', express.static(process.env.NODE_ENV == 'production' ? clientDir : 'public'));
 
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100
+});
+
 // Router
-app.use('/api/v1', router);
+if (process.env.NODE_ENV === 'production') {
+    app.use('/api/v1', apiLimiter, router);
+} else {
+    app.use('/api/v1', router);
+}
+
 
 // Catch errors
 app.use((req: any, res: any, next: any) => {
