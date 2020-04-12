@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 router.post('/logout', authController.logout);
+
 router.post('/verifytoken', authController.verifyToken);
 
 export default router;

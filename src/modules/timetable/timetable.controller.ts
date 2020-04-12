@@ -17,22 +17,17 @@ class TimetableController extends BaseController {
     async create(req: any, res: any, next: any) {
         try {
             let { userid: userID } = req.headers;
-            let { schedule, teacherName, studentName } = req.body;
-            if (!teacherName || !studentName) {
+            let { schedule, teacherName } = req.body;
+            if (!teacherName) {
                 throw new BadRequestException(ERR_MISSING_INPUT);
             }
             let getTeacherID = await this.userRepository.getUserByName(teacherName, { type: 1 });
             if (!getTeacherID) {
                 throw new BadRequestException()
             };
-            let getStudentID = await this.userRepository.getUserByName(teacherName, { type: 0 });
-            if (!getStudentID) {
-                throw new BadRequestException()
-            };
             let createSchedule = await this.timetableRepository.create({
                 userID,
                 teacherID: getTeacherID.ID,
-                studentID: getStudentID.ID,
                 schedule,
             })
             if (!createSchedule) {

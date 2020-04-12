@@ -83,6 +83,16 @@ class UserController extends BaseController {
             next(error);
         }
     }
+
+    async search(req: any, res: any, next: any) {
+        try {
+            let { keyword, limit, page } = req.query;
+            let search = await this.userRepository.search(keyword, limit, page);
+            return res.json(search)
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default UserController;

@@ -16,7 +16,6 @@ class TimetableRepository {
             isDeleted: false,
             $or: [
                 { teacherID: { $regex: regex } },
-                { studentID: { $regex: regex } },
             ]
         }, {
             sort: { createdAt: -1 },

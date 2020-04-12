@@ -82,7 +82,7 @@ class UserReponsitory {
             },
             $or: [
                 { username: { $regex: regex } },
-                { mobilePhone: { $regex: regex } },
+                { fullName: { $regex: regex } },
                 { email: { $regex: regex } },
             ]
         }, {
