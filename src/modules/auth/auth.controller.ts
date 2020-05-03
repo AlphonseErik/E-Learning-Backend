@@ -27,8 +27,13 @@ class AuthController extends BaseController {
                 throw new BadRequestException(ERR_MISSING_INPUT);
             }
             let user = await this.userRepository.getUserByUserNameAndPassword(username);
+            console.log(user)
+            if (user === null) {
+                console.log(1)
+                throw new BadRequestException(USER_NOT_FOUND);
+            }
             if (!(user && user.comparePassword(password))) {
-                throw new UnauthorizedException(USER_NOT_FOUND);
+                throw new BadRequestException(USER_NOT_FOUND);
             }
             // store token
             let userID: any = user.ID;

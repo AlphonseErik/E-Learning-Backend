@@ -15,11 +15,8 @@ import { SignInValidatorSchema } from './validatorSchema/signin.validatorSchema'
 
 const authController = new AuthController();
 
-if (process.env.NODE_ENV === 'production') {
-    router.post('/signin', createSignInLimiter, validatorBody(SignInValidatorSchema), authController.signIn);
-} else {
-    router.post('/signin', validatorBody(SignInValidatorSchema), authController.signIn);
-}
+router.post('/signin', validatorBody(SignInValidatorSchema), authController.signIn);
+
 
 router.post('/logout', authController.logout);
 
