@@ -17,7 +17,6 @@ const authController = new AuthController();
 
 router.post('/signin', validatorBody(SignInValidatorSchema), authController.signIn);
 
-
 router.post('/logout', authController.logout);
 
 router.post('/verifytoken', authController.verifyToken);
