@@ -13,4 +13,6 @@ router.post('/getprofile', userController.getProfile);
 
 router.post('/search', verifyAccessToken, userController.search);
 
+router.get('/getallstudent', userController.getAllStudent);
+
 export default router;

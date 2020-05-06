@@ -101,6 +101,18 @@ class UserReponsitory {
             isActive: false
         }).select('-__v -id -createdAt -updatedAt')
     }
+
+    async getAllStudent(limit: number = 12, page: number = 1) {
+        return UserModel.paginate({
+            isDeleted: false,
+            type: 0,
+        }, {
+            sort: { createdAt: -1 },
+            limit: Number(limit),
+            page: Number(page),
+            select: ""
+        })
+    }
 }
 
 export default UserReponsitory;

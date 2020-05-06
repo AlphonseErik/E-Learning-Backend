@@ -93,6 +93,16 @@ class UserController extends BaseController {
             next(err)
         }
     }
+
+    async getAllStudent(req: any, res: any, next: any) {
+        let { limit, page } = req.query;
+        try {
+            let getAllStudent = await this.userRepository.getAllStudent(limit, page);
+            return res.json(getAllStudent)
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default UserController;
