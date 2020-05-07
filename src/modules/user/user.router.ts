@@ -15,4 +15,6 @@ router.post('/search', verifyAccessToken, userController.search);
 
 router.get('/getallstudent', userController.getAllStudent);
 
+router.get('/getallteacher', userController.getAllTeacher);
+
 export default router;

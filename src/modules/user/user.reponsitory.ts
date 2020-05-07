@@ -113,6 +113,18 @@ class UserReponsitory {
             select: ""
         })
     }
+
+    async getAllTeacher(limit: number = 12, page: number = 1) {
+        return UserModel.paginate({
+            isDeleted: false,
+            type: 1,
+        }, {
+            sort: { createdAt: -1 },
+            limit: Number(limit),
+            page: Number(page),
+            select: ""
+        })
+    }
 }
 
 export default UserReponsitory;
