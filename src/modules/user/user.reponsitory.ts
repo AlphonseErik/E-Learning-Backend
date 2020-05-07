@@ -127,6 +127,21 @@ class UserReponsitory {
             select: "-_id -__v -password -birthDate -updatedAt"
         })
     }
+
+    async updateUser(ID: string, updateData: any) {
+        let update = await UserModel.updateOne({
+            ID,
+            isDeleted: false,
+            isSuperAdmin: false,
+        }, {
+            ...updateData
+        })
+
+        if (update.nModified > 0) {
+            return true;
+        }
+        return false;
+    }
 }
 
 export default UserReponsitory;

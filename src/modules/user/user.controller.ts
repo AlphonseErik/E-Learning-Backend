@@ -113,6 +113,22 @@ class UserController extends BaseController {
             next(err)
         }
     }
+
+    async deletedUser(req: any, res: any, next: any) {
+        try {
+            let { ID } = req.params;
+            let updateUser = await this.userRepository.updateUser(ID, { isDeleted: true })
+            if (!updateUser) {
+                throw new BadRequestException()
+            }
+            return res.json({
+                isUpdate: true
+            })
+        } catch (err) {
+            console.log(err.message);
+            next(err)
+        }
+    }
 }
 
 export default UserController;
