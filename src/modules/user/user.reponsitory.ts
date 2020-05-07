@@ -106,11 +106,12 @@ class UserReponsitory {
         return UserModel.paginate({
             isDeleted: false,
             type: 0,
+            isSuperAdmin: false,
         }, {
             sort: { createdAt: -1 },
             limit: Number(limit),
             page: Number(page),
-            select: ""
+            select: "-_id -__v -password -birthDate -updatedAt"
         })
     }
 
@@ -118,11 +119,12 @@ class UserReponsitory {
         return UserModel.paginate({
             isDeleted: false,
             type: 1,
+            isSuperAdmin: false,
         }, {
             sort: { createdAt: -1 },
             limit: Number(limit),
             page: Number(page),
-            select: ""
+            select: "-_id -__v -password -birthDate -updatedAt"
         })
     }
 }

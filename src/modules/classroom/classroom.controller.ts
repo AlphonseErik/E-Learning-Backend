@@ -14,24 +14,23 @@ class ClassroomController extends BaseController {
     }
 
     async create(req: any, res: any, next: any) {
-        let { userid: userID } = req.headers;
-        let { className } = req.body;
+        let { className, fullName } = req.body;
         try {
-            if (!userID || !className) {
+            if (!className) {
                 throw new BadRequestException(ERR_MISSING_INPUT)
             }
             let checkClassExist = await this.classroomRepository.getClassByName(className);
             if (checkClassExist) {
                 throw new BadRequestException(CLASS_IS_ALREADY_EXIST)
             }
-            let userDetail = await this.userRepository.getById(userID, "-_id -__v -password");
+            let userDetail = await this.userRepository.getUserByName(fullName, "-_id -__v -password");
             if (!userDetail) {
                 throw new BadRequestException(ERR_USER_NOT_FOUND);
             }
             if (userDetail.type === 0) {
                 throw new BadRequestException(NO_PERMISSION);
             }
-            let createClass = await this.classroomRepository.create({ userID, userName: userDetail.fullName, className });
+            let createClass = await this.classroomRepository.create({ userName: userDetail.fullName, className });
             if (!createClass) {
                 throw new BadRequestException(ERR_CREATE_CLASS);
             }
@@ -74,6 +73,18 @@ class ClassroomController extends BaseController {
             }
             return res.json(
                 registerClass
+            )
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    async getAll(req: any, res: any, next: any) {
+        try {
+            let { limit, page } = req.params;
+            let getClass = await this.classroomRepository.getAll(limit, page);
+            return res.json(
+                getClass
             )
         } catch (err) {
             next(err)

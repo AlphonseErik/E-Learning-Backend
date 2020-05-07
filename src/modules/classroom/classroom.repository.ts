@@ -17,6 +17,17 @@ class ClassroomRepository {
         }).select('-_id -__v -createdAt -updatedAt')
     }
 
+    async getAll(limit: number = 12, page: number = 1) {
+        return ClassroomModel.paginate({
+            isDeleted: false,
+        }, {
+            sort: { createdAt: -1 },
+            limit: Number(limit),
+            page: Number(page),
+            select: ""
+        })
+    }
+
     async getClassByUserID(userID: string = "", limit: number = 100, page: number = 1) {
         return ClassroomModel.paginate({
             isDeleted: false,

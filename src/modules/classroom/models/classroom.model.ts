@@ -21,6 +21,10 @@ const ClassroomSchema = new Schema({
         type: String,
         default: "",
     },
+    teacher: {
+        type: String,
+        default: "",
+    },
     studentDetail: {
         type: [String],
         default: "",

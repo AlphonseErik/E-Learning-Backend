@@ -8,6 +8,8 @@ router.post('/', classroomController.create);
 
 router.post('/registerclass', classroomController.registerClass);
 
+router.get('/getall', classroomController.getAll);
+
 router.get('/getclass/:userID', classroomController.getClassByUserID);
 
 router.put('/:classID', classroomController.update);
